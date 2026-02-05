@@ -34,10 +34,10 @@ export const authMiddleware= (
          const decoded = verifyToken(token);
          if (typeof decoded === "object" && decoded !== null && "userId" in decoded) {
              req.userId = (decoded as { userId: string }).userId;
+             next();
          } else {
              return res.status(401).json({ message: "Invalid token payload" });
          }
-         
       } catch (error) {
         
          res.status(401).json({ message: "invalid token"});

@@ -6,8 +6,9 @@ import { signupService, loginService } from "./authService";
 export const signup = async(req:Request,res:Response)=>{
       
        try {
-              const {name,email,password} = req.body;
-              const result = await signupService(name,email,password);
+              const {username,email,password} = req.body;
+              const result = await signupService(username,email,password);
+            //   console.log("in controller");
               res.status(201).json(result);
        } catch (error: any) {
            res.status(400).json({ message: error.message});

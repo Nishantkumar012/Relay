@@ -6,7 +6,7 @@ import { signToken } from "../utils/jwt"
 
 
 export const signupService = async(
-    name: string,
+    username: string,
     email: string,
     password: string    
   )=>{
@@ -24,9 +24,9 @@ export const signupService = async(
           const user = await prisma.user.create({
              
              data:{
-                name,
+                username,
                 email,
-                password:hashedPassword
+                passwordHash: hashedPassword
              },
           });
         
@@ -51,7 +51,7 @@ export const loginService = async(
           throw new Error("Invalid credentials");
        }
 
-       const isValid = await comparePassword(password,user.password);
+       const isValid = await comparePassword(password,user.passwordHash);
 
        if(!isValid){
            throw new Error("Invalid Password");
