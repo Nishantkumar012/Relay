@@ -3,12 +3,17 @@ import http from 'http';
 import {app} from './app';
 import WebSocket,{ WebSocketServer } from 'ws';
 import { stringify } from 'querystring';
+import { initSocketServer } from './socket/socket';
 
 
 
 const PORT = 3000
 
 // const clients :any = new Set();
+
+const server = http.createServer(app);
+initSocketServer(server);
+
 
 // async function start(){
 
