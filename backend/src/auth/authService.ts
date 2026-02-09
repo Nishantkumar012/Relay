@@ -30,9 +30,12 @@ export const signupService = async(
              },
           });
         
-          const token = signToken(JSON.stringify({userId: user.id }));
+         //  const token = signToken(JSON.stringify({userId: user.id }));
         //   const token = signToken({userId: user.id });
-      
+            
+          const token = signToken(user.id);
+        
+
         return { user,token};
 
   }
@@ -57,7 +60,8 @@ export const loginService = async(
            throw new Error("Invalid Password");
        }
 
-        const token = signToken(JSON.stringify({userId: user.id }));
+      //   const token = signToken(JSON.stringify({userId: user.id }));
+          const token = signToken(user.id);
 
         return {user, token};
 

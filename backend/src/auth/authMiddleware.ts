@@ -32,9 +32,13 @@ export const authMiddleware= (
          }
          
          const decoded = verifyToken(token);
-         if (typeof decoded === "object" && decoded !== null && "userId" in decoded) {
+         if (  typeof decoded === "object" &&
+                decoded !== null &&
+                "userId" in decoded &&
+                typeof (decoded as any).userId === "string") {
              req.userId = (decoded as { userId: string }).userId;
-             next();
+             console.log("midle",req.userId);
+             return next();
          } else {
              return res.status(401).json({ message: "Invalid token payload" });
          }
