@@ -4,7 +4,8 @@ import {prisma} from "../config/db";
 
 export const createDirectConversation= async(
     userId: string,
-    otherUserId: string
+    otherUserId: string,
+    title: string
 ) => {
         
        const existingConversation = await prisma.conversation.findFirst({
@@ -16,6 +17,7 @@ export const createDirectConversation= async(
                         userId:{
                             in: [userId, otherUserId]
                         },
+                        
                     },
                  },
             },
@@ -23,6 +25,7 @@ export const createDirectConversation= async(
 
 
        if(existingConversation){
+           console.log("yha end");
            return existingConversation;
        }
 
@@ -34,9 +37,13 @@ export const createDirectConversation= async(
                         {userId},
                         { userId: otherUserId},
                     ],
+                    
                 },
+                title:title
             },
        });
+
+       
 
        return conversation;
 };

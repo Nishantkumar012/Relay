@@ -9,16 +9,17 @@ export const createConversation = async(req:Request, res:Response)=>{
       
       try {
             const userId = (req as any).userId;
-            const {otherUserId }= req.body;
+            const {otherUserId, title }= req.body;
 
-            console.log("userId is", userId);
+            // console.log("userId is", userId);
        
             if(!otherUserId){
                   return res.status(400).json({ message: "otherUserId is required" });
             }
-
-            const conversation = await createDirectConversation(userId,otherUserId);
-            console.log(conversation+"kuch hi nhi")
+             
+            //  console.log("title in", title);
+            const conversation = await createDirectConversation(userId,otherUserId,title);
+            // console.log(conversation+"kuch hi nhi")
             res.status(201).json(conversation);
 
         } catch (error: any) {
