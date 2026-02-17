@@ -8,4 +8,6 @@ const router = Router();
 
 router.get("/:conversationId",authMiddleware,getMessages);
 
+// router.get("/:conversationId/messages",authMiddleware,)
+
 export default router;
