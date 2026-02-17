@@ -39,6 +39,12 @@ export const handlerConnection = (socket: WebSocket, req: any)=>{
               
                   if (data.type === "send_message") {
                         const { conversationId, content } = data;
+                    
+                        // console.log("content is", typeof(content));
+
+                        // const newContent = JSON.stringify(content);
+                        // console.log("content is", typeof(newContent));
+                        console.log("conversationId is ", typeof(conversationId));
 
                         // 🛑 validation
                         if (
@@ -54,6 +60,7 @@ export const handlerConnection = (socket: WebSocket, req: any)=>{
                                 message: "Invalid message payload",
                             })
                             );
+                            console.log("try m na jaunga");
                             return;
                         }
 
@@ -64,6 +71,10 @@ export const handlerConnection = (socket: WebSocket, req: any)=>{
                             userId,
                             content.trim()
                             );
+                             
+                             console.log("try mn");
+
+                             console.log("message is",message);
 
                             const roomId = `conversation:${conversationId}`;
 
@@ -72,6 +83,8 @@ export const handlerConnection = (socket: WebSocket, req: any)=>{
                             type: "new_message",
                             message,
                             });
+
+
                         } catch (err: any) {
                             socket.send(
                             JSON.stringify({

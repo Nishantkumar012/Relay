@@ -1,52 +1,80 @@
 import {prisma} from "../config/db"
 
 
+// get message by
+export const getMessagesByConversation = async (
+  conversationId: string,
+  userId: string,
+  cursor?: string,
+  limit: number = 20
+) => {
+  // 1️⃣ Check conversation exists
+  const conversation = await prisma.conversation.findUnique({
+    where: { id: conversationId },
+  });
+
+  if (!conversation) {
+    throw new Error("Conversation not found");
+  }
+
+  // 2️⃣ Check membership
+  const member = await prisma.conversationMember.findFirst({
+    where: {
+      conversationId,
+      userId,
+    },
+  });
+
+  if (!member) {
+    throw new Error("You are not a member of this conversation");
+  }
+
+  // 3️⃣ Build query
+  const messages = await prisma.message.findMany({
+    where: {
+      conversationId,
+      ...(cursor && {
+        createdAt: {
+          lt: new Date(cursor),
+        },
+      }),
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit + 1, // for hasMore
+    include: {
+      sender: {
+        select: {
+          id: true,
+          username: true,
+        },
+      },
+    },
+  });
+
+  // 4️⃣ Pagination logic
+  let hasMore = false;
+
+  if (messages.length > limit) {
+    hasMore = true;
+    messages.pop();
+  }
+
+  const nextCursor =
+    messages.length > 0
+      ? messages[messages.length - 1]?.createdAt.toISOString()
+      : null;
+
+  return {
+    messages,
+    nextCursor,
+    hasMore,
+  };
+};
 
 
-export const getMessagesByConversation= async(
-    conversationId:string,
-    userId:string
-)=>{
-    
-        const conversation = await prisma.conversation.findFirst({
-            where:{
-                id: conversationId,
-                members:{
-                    some:{
-                        userId: userId,
-                    }
 
-                }
-            }
-        })
-           
-        if(!conversation){
-             throw new Error("Conversation not found or acess denied");
-        }
-
-
-        const messages = await prisma.message.findMany({
-             where:{
-                conversationId,
-             },
-             orderBy:{
-                createdAt: "desc"
-             },
-             take:20,
-             include:{
-                sender:{
-                    select:{
-                        id:true,
-                        username: true,
-
-                    },
-
-                },
-             },
-        });
-
-     return messages.reverse();
-}
 
 
 export const createMessage = async (
@@ -88,3 +116,7 @@ export const createMessage = async (
 
   return message;
 };
+
+
+
+
