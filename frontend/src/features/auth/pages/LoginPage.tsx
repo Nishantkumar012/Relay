@@ -1,53 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../hooks/useAuth";
+import LoginForm from "../components/LoginForm";
 
 export default function LoginPage() {
   const { login, loading, error } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleLogin = async (email: string, password: string) => {
     await login({ email, password });
+    navigate("/");
   };
 
-  return (
-    <div style={{ maxWidth: 400, margin: "100px auto" }}>
-      <h2>Login</h2>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div style={{ marginTop: 10 }}>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="submit" disabled={loading} style={{ marginTop: 15 }}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
-
-      {error && (
-        <p style={{ color: "red", marginTop: 10 }}>
-          {error}
-        </p>
-      )}
-    </div>
-  );
+  return <LoginForm onSubmit={handleLogin} loading={loading} error={error} />;
 }

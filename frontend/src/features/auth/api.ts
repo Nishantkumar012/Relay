@@ -2,15 +2,8 @@ import apiClient from "../../services/apiClient";
 
 import type { LoginPayload, AuthResponse } from "./types";
 
-
-export const login = async(
-    payload: LoginPayload,
-): Promise<AuthResponse> =>{
-      
-      const response = await apiClient.post<AuthResponse>(
-         "/auth/login",
-         payload,
-      );
-
-      return response.data;
+export const login = async (payload: LoginPayload): Promise<AuthResponse> => {
+  const response = await apiClient.post<AuthResponse>("/auth/login", payload);
+   console.log(apiClient);
+  return response.data;
 };
