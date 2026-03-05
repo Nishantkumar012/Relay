@@ -14,15 +14,15 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
-  { 
-     element: <PrivateRoute/>,
-     children: [
+  {
+    element: <PrivateRoute />,
+    children: [
       {
-         path: "/chats",
-         element: <ChatPage/>
-      }
-    ]
-  }
+        path: "/chats",
+        element: <ChatPage />,
+      },
+    ],
+  },
 ]);
 
 export default router;

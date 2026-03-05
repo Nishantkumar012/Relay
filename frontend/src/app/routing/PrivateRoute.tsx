@@ -1,24 +1,19 @@
-
-import { Navigate,Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 
-
-
 function PrivateRoute() {
-   
-  const {token} = useAuthStore();
+  const { token } = useAuthStore();
 
-
-   if(!token){
-      //  console.log("error a gya");
-     return   <Navigate to="/login"/>
-   }
+  if (!token) {
+    //  console.log("error a gya");
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div>
-        <Outlet/>
+      <Outlet />
     </div>
-  )
+  );
 }
 
-export default PrivateRoute
+export default PrivateRoute;

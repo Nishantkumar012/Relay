@@ -1,7 +1,6 @@
-import {create} from "zustand";
-import {persist} from "zustand/middleware";
-import type {User} from "../features/auth/types";
-
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { User } from "../features/auth/types";
 
 type AuthState = {
   user: User | null;
@@ -30,6 +29,6 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-storage", // localStorage key
-    }
-  )
+    },
+  ),
 );

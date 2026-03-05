@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { signup,login} from "./authController"
+import { signup,login,getMe} from "./authController"
 import { authMiddleware } from "./authMiddleware";
 
 
@@ -10,10 +10,7 @@ router.post("/signup",signup);
 router.post("/login",login);
 
 
-router.get("/me", authMiddleware, (req,res) =>{
-      
-     res.json({ userId: (req as any).userId});
-})
+router.get("/me", authMiddleware, getMe)
 
 
 export default router;

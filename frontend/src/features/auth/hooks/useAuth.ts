@@ -8,7 +8,7 @@ export function useAuth() {
   // const [token, setToken] = useState<string | null>(null);
   // will use zustand
 
-  const {setAuth} = useAuthStore();
+  const { setAuth } = useAuthStore();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,12 +22,31 @@ export function useAuth() {
 
       // setUser(data.user);
       // setToken(data.token);
+      
+       console.log("API RESPONSE", data);
+
+
       setAuth(data.user, data.token);
+      
+      // console.log("m yh ahu auseaUthm")
+      
       console.log("Login success", data);
+      
       // localStorage.setItem("token",data.token)
-      console.log(useAuthStore.getState());
+      
+      console.log("Auth state",useAuthStore.getState());
+     
+       return true;
+    
     } catch (err: any) {
+      console.log("FULL ERROR", err);
+
+  console.log("ERROR RESPONSE", err?.response);
+
+  console.log("ERROR DATA", err?.response?.data);
       setError(err.response?.data?.message || "Login failed");
+
+      return false;
     } finally {
       setLoading(false);
     }

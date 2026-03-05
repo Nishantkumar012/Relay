@@ -10,8 +10,15 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = async (email: string, password: string) => {
-    await login({ email, password });
-    navigate("/");
+       console.log("HANDLE LOGIN CALLED"); 
+    const success =  await login({ email, password });
+
+       console.log("LOGIN RESULT", success);
+
+     if(success){
+
+        navigate("/chats");
+     }
   };
 
   return <LoginForm onSubmit={handleLogin} loading={loading} error={error} />;
